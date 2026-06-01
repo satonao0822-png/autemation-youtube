@@ -1,0 +1,31 @@
+# OS / Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*~
+
+# Local Claude settings (per-user)
+.claude/settings.local.json
+
+# 大容量メディア（必要に応じて外部ストレージ管理）
+*.mp4
+*.mov
+*.mkv
+*.wav
+*.mp3
+*.psd
+*.ai
+
+# Secrets
+.env
+.env.*
+!.env.example
+credentials.json
+*_secret.json
+
+# Logs / temp
+*.log
+tmp/
+.cache/
