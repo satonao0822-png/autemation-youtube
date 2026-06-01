@@ -11,19 +11,26 @@
 
 このプロジェクトには明示的な人格が定義されている：
 
-| 人格 | 役割 | 定義場所 |
-| --- | --- | --- |
-| なーたん | ユーザー本人 / 意思決定者 | `team/naatan.md` |
-| yutaka | YouTube責任者 | `.claude/agents/yutaka.md` |
-| manami | YouTube作家（リサーチ・台本） | `.claude/agents/manami.md` |
-| nishi | 映像クリエイター | `.claude/agents/nishi.md` |
-| junki | 編集（音声合成・字幕含む） | `.claude/agents/junki.md` |
-| hina | サムネ / タイトル設計 | `.claude/agents/hina.md` |
+| 呼称 | レイヤー | 役割 | 内部slug | 定義場所 |
+| --- | --- | --- | --- | --- |
+| なーたん | 0. 決裁 | ユーザー本人 / 意思決定者 | - | `team/naatan.md` |
+| yutaka | 1. 戦略 | YouTube責任者（全チャンネル戦略・対外） | `yutaka` | `.claude/agents/yutaka.md` |
+| 投資チャンネルPM | 2. PM（役割名） | 投資チャンネル（channel_01_invest_youth）専任PM | `invest-pm` | `.claude/agents/invest-pm.md` |
+| 恐竜チャンネルPM | 2. PM（役割名） | 恐竜・古生物チャンネル（channel_02_dinosaur）専任PM | `dinosaur-pm` | `.claude/agents/dinosaur-pm.md` |
+| manami | 3. 職能 | YouTube作家（リサーチ・台本） | `manami` | `.claude/agents/manami.md` |
+| nishi | 3. 職能 | 映像クリエイター | `nishi` | `.claude/agents/nishi.md` |
+| junki | 3. 職能 | 編集（音声合成・字幕含む） | `junki` | `.claude/agents/junki.md` |
+| hina | 3. 職能 | サムネ / タイトル設計 | `hina` | `.claude/agents/hina.md` |
+
+組織レイヤー：**なーたん → yutaka（戦略） → 投資チャンネルPM / 恐竜チャンネルPM（チャンネル別PM・現場運営） → manami / nishi / junki / hina（職能・チャンネル横断）**。
+詳細は `team/org_chart.md`。命名規則は `team/naming_convention.md`。
 
 ### 窓口Claudeとしての立ち回り
 
 - なーたんと直接やり取りする「窓口Claude」がデフォルト。
 - なーたんが特定の名前を指名したら、必ず `Agent` ツールで該当 `subagent_type` を呼び出す。窓口Claudeが専門判断を肩代わりしない。
+- **PMは役割名で呼ぶ**（「投資チャンネルPM、〜」「恐竜チャンネルPM、〜」）。略称「投資ch PM」「投資PM」「恐竜PM」等も同じ相手を指す。内部slug対応表は `team/naming_convention.md` 参照（`invest-pm` / `dinosaur-pm`）。
+- **職能メンバーは個人名で呼ぶ**（「manami、〜」「hina、〜」）。
 - 複数職種にまたがる依頼は yutaka に投げる（yutaka がチーム内に分配する）。
 - サブエージェントの回答は要約せず原文をなーたんに見せるのを基本とする。
 - 誰宛か曖昧なときは確認する。
@@ -34,6 +41,27 @@
 - 意思決定はその場で `decisions/ADR-XXX_title.md` に書く（後回しにしない）。
 - 打ち合わせや方針議論は `meetings/YYYY-MM-DD_topic.md` に議事録を残す。日付は今日の絶対日付で。
 - yutakaから受けた報告・提案でなーたんが採用したものは、ADR化を検討する。
+
+## Notion（コンテキストの正本）
+
+- **HQ**: [非属人YouTube HQ](https://www.notion.so/3729aee02088813a9b5fc24894468629)
+- **コンテキスト** → Notion DB群／**実行ルール** → ローカル `CLAUDE.md` / `.claude/agents/`
+
+### 日次フロー（1日1回・HQ）— 最優先
+
+議事・当日の活動は **1日1回** [日次HQレポート](https://www.notion.so/4dc69eca0d454576b585d4ff1ee332d5) に集約し、HQ 先頭 **「📣 なーたんへの今日の活動内容報告」** で見えるようにする。  
+手順・テンプレ: `knowledge/daily_hq_briefing_flow.md`
+
+| タイミング | 操作 |
+| --- | --- |
+| 日中 | `meetings/YYYY-MM-DD_*.md` に議事を追記 |
+| 任意 | **日次活動サマリー** にセッション1行 |
+| **終業時（1日1回）** | **日次HQレポート** を更新（同日行は上書き） |
+| 決定時 | ローカル ADR + **意思決定** DB |
+
+**トリガー**: `日次報告を更新して` / `HQの日次を更新して` / `今日の議事をNotionに`
+
+採用した意思決定は **意思決定** DB にミラー。セッション全文は Notion に入れない。
 
 ## 編集の優先順位
 

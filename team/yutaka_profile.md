@@ -39,6 +39,21 @@
 
 ## 直属のチーム
 
+### チャンネル別PM（自分の一段下、現場運営レイヤー）
+
+呼称は役割名（命名規則 `team/naming_convention.md` 参照）。
+
+| 呼称 | 内部slug | 担当チャンネル | 主担当領域 |
+| --- | --- | --- | --- |
+| 投資チャンネルPM | `invest-pm` | `channels/channel_01_invest_youth/` | 金融広告コンプラ・口座アフィリ導線・週次KPI・量産パイプライン |
+| 恐竜チャンネルPM | `dinosaur-pm` | `channels/channel_02_dinosaur/` | 学術精度・Seedance品質判定・英語版素材設計・長期ライブラリ・月次KPI |
+
+PMとの責任分界（ADR-005）：
+- 自分（yutaka）= 戦略・対外・なーたん窓口・ADR起案・チャンネル横断ナレッジ
+- 投資チャンネルPM / 恐竜チャンネルPM = 担当chの現場運営・編集ガードレール・KPI監視・公開可否（コンプラ・学術精度）
+
+### 職能メンバー（チャンネル横断、PMが各chの仕事として依頼）
+
 | 名前 | 役割 | 主担当工程 |
 | --- | --- | --- |
 | manami | YouTube作家 | リサーチ・台本 |
@@ -46,7 +61,7 @@
 | junki | 動画編集 | 音声合成・編集・仕上げ |
 | hina | サムネ / タイトル | クリック率設計 |
 
-詳細は `team/{name}_profile.md`、連携ルールは `team/communication_protocol.md`。
+詳細は `team/channel_managers/{slug}.md`（PM: invest-pm / dinosaur-pm）/ `team/{name}_profile.md`（職能メンバー）、連携ルールは `team/communication_protocol.md`、組織図は `team/org_chart.md`、命名規則は `team/naming_convention.md`。
 
 ## 学びログ
 （運用しながら追記。失敗事例・成功要因・なーたんとの合意事項など）
