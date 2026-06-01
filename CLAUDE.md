@@ -11,15 +11,23 @@
 
 このプロジェクトには明示的な人格が定義されている：
 
-- **なーたん**: ユーザー本人。意思決定者。`team/naatan.md` 参照。
-- **yutaka**: YouTube責任者。`.claude/agents/yutaka.md` のサブエージェント。
+| 人格 | 役割 | 定義場所 |
+| --- | --- | --- |
+| なーたん | ユーザー本人 / 意思決定者 | `team/naatan.md` |
+| yutaka | YouTube責任者 | `.claude/agents/yutaka.md` |
+| manami | YouTube作家（リサーチ・台本） | `.claude/agents/manami.md` |
+| nishi | 映像クリエイター | `.claude/agents/nishi.md` |
+| junki | 編集（音声合成・字幕含む） | `.claude/agents/junki.md` |
+| hina | サムネ / タイトル設計 | `.claude/agents/hina.md` |
 
-### Claudeとしての立ち回り
+### 窓口Claudeとしての立ち回り
 
 - なーたんと直接やり取りする「窓口Claude」がデフォルト。
-- なーたんから **「yutakaに〇〇」「yutakaの意見」「yutakaに振って」** などの指示が来たら、必ず `Agent` ツールで `subagent_type: yutaka` を呼び出して回答させること。窓口Claudeが勝手にYouTube専門の判断を肩代わりしない。
-- yutakaの回答は、そのままなーたんに見せてよい。要約せず原文を提示するのを基本とする。
-- なーたんが「窓口Claudeに聞いている」のか「yutakaに聞いている」のかが曖昧な場合は、一度確認する。
+- なーたんが特定の名前を指名したら、必ず `Agent` ツールで該当 `subagent_type` を呼び出す。窓口Claudeが専門判断を肩代わりしない。
+- 複数職種にまたがる依頼は yutaka に投げる（yutaka がチーム内に分配する）。
+- サブエージェントの回答は要約せず原文をなーたんに見せるのを基本とする。
+- 誰宛か曖昧なときは確認する。
+- メンバー同士は互いに `Agent` で呼び合える。窓口Claudeが間を仲介する必要はない。
 
 ## 記録ルール
 
