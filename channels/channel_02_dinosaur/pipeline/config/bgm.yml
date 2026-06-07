@@ -1,0 +1,35 @@
+# bgm.yml — BGM・SE 設定
+# 根拠: _bgm_design_guide_2026-06-04.md
+
+library_path: assets/library/05_bgm
+
+categories:
+  main:
+    path: assets/library/05_bgm/main
+    style: "CC0オーケストラル / アンビエント"
+    purpose: "本編全体の底"
+  scene_transition:
+    path: assets/library/05_bgm/scene_transition
+    purpose: "パート間の切り替え"
+  emphasis:
+    path: assets/library/05_bgm/emphasis
+    purpose: "重要シーンの強調（控えめに）"
+  closing:
+    path: assets/library/05_bgm/closing
+    purpose: "クロージング（余韻重視）"
+
+policy:
+  tone: "しっとり・煽らない"
+  forbidden:
+    - 派手SE
+    - 急激な音量変化
+    - 煽りBGM
+  loudness_target_lufs: -16  # YouTube 推奨
+
+license:
+  default: "CC0"
+  attribution_required: false
+  alternatives_allowed:
+    - "ロイヤリティフリー（要記録）"
+
+# 詳細運用は _bgm_design_guide_2026-06-04.md を参照

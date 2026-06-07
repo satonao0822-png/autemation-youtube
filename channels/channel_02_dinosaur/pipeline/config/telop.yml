@@ -1,0 +1,38 @@
+# telop.yml — テロップ・字幕設定
+# 根拠: _telop_design_guide_2026-06-04.md / 03_production_workflow.md「プロジェクト構造」
+
+layering:
+  # テロップは焼き込まずレイヤー分離（恒久ルール・03_production_workflow.md）
+  # 理由: ①修正容易性 ②将来の英語版再開対応 ③サムネ再リリース対応
+  burn_in: false
+  layer_separated: true
+  rationale:
+    - "修正容易性（後から差し替えできる）"
+    - "将来の英語版再開対応"
+    - "サムネ再リリース対応"
+
+density:
+  # 学名・出典の網羅は多め
+  policy: "学術用語・固有名詞・出典は必ずテロップ化"
+  upper_bound_per_minute: null  # ガイドに従う（_telop_design_guide）
+
+style:
+  # 詳細は _telop_design_guide_2026-06-04.md
+  font_family: null   # TBD
+  size_main: null     # TBD
+  size_supplementary: null
+  color_main: null
+  color_emphasis: null
+  shadow: true
+  shadow_color: "rgba(0,0,0,0.6)"
+
+scientific_notation:
+  binomial_name_italic: true   # 学名はラテン語斜体
+  geological_age_unit: "Ma"    # 地質年代は Ma 併記
+
+forbidden:
+  - 子供向け迎合フォント（POP体等）
+  - 過剰な装飾
+  - 点滅・派手なアニメーション
+
+# 詳細運用は _telop_design_guide_2026-06-04.md を参照

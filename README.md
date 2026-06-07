@@ -31,7 +31,7 @@
 | --- | --- |
 | `.claude/agents/` | Claude Codeのサブエージェント定義（yutakaほか） |
 | `team/` | メンバーの人格・役割プロファイル |
-| `channels/` | 各YouTubeチャンネルの企画・制作・分析。`_template/` を雛形として複製 |
+| `channels/` | 各YouTubeチャンネルの企画・制作・分析。`_template/` を雛形として複製。恐竜chは完全自動パイプライン化中（[ADR-008](decisions/ADR-008_dinosaur_automation_pipeline_architecture.md)） |
 | `knowledge/` | YouTube運用ノウハウ・ナレッジベース |
 | `meetings/` | 打ち合わせ議事録（`YYYY-MM-DD_topic.md`） |
 | `decisions/` | 意思決定ログ（ADR形式） |

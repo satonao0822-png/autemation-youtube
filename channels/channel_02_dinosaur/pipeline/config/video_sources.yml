@@ -1,0 +1,72 @@
+# video_sources.yml — 映像3ソース戦略
+# 根拠: ADR-007 / _pm_status_overview §1-15, §1-17 / _pm_memo_seedance_pause_2026-06-04
+
+# 配分目安（本数 ≒ 尺ベース）
+allocation:
+  freestock_pct: 25   # 無料ストック
+  magnific_pct: 35    # Magnific
+  seedance_pct: 40    # Seedance（API課金）
+
+sources:
+  freestock:
+    enabled: true
+    candidates:
+      - name: pexels
+        api: true
+        license: "Pexels License"
+      - name: pixabay
+        api: true
+        license: "Pixabay Content License"
+    library_path: assets/library/01_freestock
+    categories:
+      - abstract
+      - general
+      - historical
+      - museum
+      - nature
+      - space
+
+  magnific:
+    enabled: true
+    contract: "月約1000円のプラン契約済（なーたん名義）"
+    library_path: assets/library/02_magnific
+    categories:
+      - dinosaur_bg
+      - general
+      - nature
+      - transitions
+
+  seedance:
+    # 2026-06-07 ADR-009: 採用は確定。API実装・課金再開は将来
+    # 当面は他フリー素材サイト併用で本数を回す
+    enabled: false
+    adopted: true              # 採用確定（実装フェーズだけ将来）
+    paused_at: "2026-06-04"
+    pause_reason: "API課金停止。プロンプト設計・運用フロー設計を先行整備"
+    resume_conditions:
+      - "台本・音声・素材が揃った時点で予算判断"
+      - "BytePlus アカウント開設 + クレカ登録 + 予算枠承認"
+    quality_gate:
+      ep01_acceptance_rate_min: 0.70  # EP01単体70%必達（厳しめ運用）
+      gate_decision_date: "2026-06-04"
+      gate_decision_by: "naatan"
+    library_path: assets/library/03_seedance
+
+  free_stock_sites_extended:
+    # フリー素材サイトの追加選定は将来（ADR-009）
+    # 当面は freestock セクションで挙げた Pexels/Pixabay と既存 assets/library を運用
+    enabled: false
+    selection_pending: true
+    selection_note: "Seedance 実装と並行して候補サイトを評価。学術整合性・恐竜素材の量・ライセンスを基準に選定"
+
+# 破綻カット差し替え（学術ガード）
+fallback_to_illustration:
+  enabled: true
+  rule: "解剖学的・行動学的にアウトな破綻パターン（指の本数・歯列・羽毛の有無・運動様式）を検出したら図解・復元画・化石写真に差し替え"
+  judged_by: dinosaur-pm
+
+scene_constraints:
+  # nishi 提案 §9-2（映像制約3点）
+  - 複数種同居最小化
+  - クロースアップ回避
+  - 仮説動作の断定回避

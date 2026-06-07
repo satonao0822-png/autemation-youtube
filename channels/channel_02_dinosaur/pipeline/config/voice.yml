@@ -1,0 +1,54 @@
+# voice.yml — ナレーション生成設定
+# 根拠: _narrator_persona.md §3-0 §3-1 / _voice_sample_listening_2026-06-04.md / feedback_voice_direction_energetic
+
+engine: fish_audio
+api_key_env: FISH_AUDIO_API_KEY  # .env から読む。値は直接書かない
+
+voice:
+  # 2026-06-06 なーたん決裁: 「元気な女性」採用（ふうかから切替）
+  name: "元気な女性"
+  provider: "@比留間大地"
+  fish_audio_id: "5161d41404314212af1254556477c17d"
+  tags:
+    - JA
+    - 女性
+    - 若い
+    - 会話形式
+    - ナレーション
+    - 優しい
+    - フレンドリー
+    - 明るい
+    - スムーズ
+
+parameters:
+  # speed=1.0 固定（feedback_fish_audio_speed_fixed）
+  # 理由: speed≠1.0 にすると fish audio のリサンプリング処理でノイズ混入
+  speed: 1.0
+  speed_locked: true
+  speed_lock_reason: "リサンプリング劣化防止（なーたん 2026-06-06 決裁）"
+
+persona:
+  # ナレーター人格（_narrator_persona.md §2）
+  name: "こはく"
+  display: "ひらがな固定（漢字「琥珀」・ローマ字「KOHAKU」表記なし）"
+  age: 29
+  profession: "古生物学博士"
+  self_mockery:
+    dino_otaku: true   # 恐竜オタクとしての自虐 OK
+    as_woman: false    # 女性としての自虐 NG
+
+deprecated_voices:
+  # 切替履歴（参照用）
+  - name: "ふうか"
+    fish_audio_id: "46745543e52548238593a3962be77e3a"
+    deprecated_at: "2026-06-06"
+    reason: "「高速」タグが「おやすみ前」シーン整合と弱い懸念"
+
+output:
+  format: wav
+  sample_rate: 44100
+  bit_depth: 16
+
+retry_policy:
+  max_attempts: 3
+  backoff_seconds: [2, 5, 15]

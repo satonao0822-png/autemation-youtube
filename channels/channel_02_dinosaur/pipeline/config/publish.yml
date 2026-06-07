@@ -1,0 +1,76 @@
+# publish.yml — YouTube 公開設定
+# Phase 1（技術スタック確定）でAPI周りの値を埋める
+
+youtube:
+  channel_id: null            # TBD
+  channel_handle: null        # TBD
+  api: youtube_data_v3
+  oauth_client_secret_path: null   # secrets/ 配下を想定。.env で参照
+  # ADR-009: unlisted（限定公開）→ なーたん確認 → public 手動切替
+  default_privacy: "unlisted"
+  public_promotion: manual    # なーたん が YouTube Studio で手動切替
+  public_promotion_reason: "URLでの最終確認を経るためフル自動public化はしない（ADR-009 / Phase 5 で再評価）"
+
+video_metadata:
+  category_id: 27             # Education（教育カテゴリ）— 暫定
+  default_language: "ja"
+  default_audio_language: "ja"
+  made_for_kids: false
+
+disclosure:
+  # AI生成開示（03_production_workflow.md 品質チェック）
+  ai_voice_disclosure: true
+  ai_video_disclosure: true
+  disclosure_placement:
+    - "動画冒頭テロップ"
+    - "概要欄1行目"
+  disclosure_text: "本動画はAI音声・AI生成映像を含みます。"
+
+scene_declaration:
+  # 「おやすみ前の大人雑学」シーン宣言（概要欄冒頭1行）
+  enabled: true
+  text: "おやすみ前の、大人のための古代生物雑学。"
+
+description_template:
+  # 後で実値で埋める
+  blocks:
+    - scene_declaration
+    - episode_summary
+    - chapter_list      # 0:00 オープニング 等
+    - references_section
+    - related_videos
+    - channel_info
+    - hashtags
+
+references:
+  # 概要欄に必ず学術ソースを記載
+  required: true
+  format: "和訳タイトル + 原タイトル + DOI/URL"
+
+tags:
+  base:
+    - 恐竜
+    - 古生物
+    - 雑学
+    - 進化
+    - 化石
+  per_episode_max: 15
+
+publish_schedule:
+  default_time_jst: "21:00"
+  default_weekday: null   # 暫定。視聴データで決める
+
+upload_gate:
+  # 06_publish 実行前に必ず通る最終ゲート（unlisted アップロード前）
+  - pm_final_review_passed
+  - naatan_approval
+  - disclosure_present
+  - thumbnail_present
+  - references_present
+
+public_gate:
+  # public 切替前のチェック（手動。なーたん がYouTube Studio で実施）
+  - unlisted_url_reviewed_by_naatan
+  - thumbnail_displayed_correctly
+  - description_displayed_correctly
+  - chapters_working

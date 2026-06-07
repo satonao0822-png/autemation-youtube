@@ -1,0 +1,89 @@
+# 00_meta.yml — EP雛形メタ情報
+# 新規EP立ち上げ時にこのファイルをコピーして必須項目を埋める
+
+episode:
+  number: null              # 例: 1
+  slug: null                # 例: triceratops_frill
+  title: null               # 例: トリケラトプスのフリル、戦う盾じゃなかったかもしれない話
+  subtitle: null            # 任意
+  theme_summary: null       # 1-2行でテーマ要約
+
+status: draft               # draft → researching → scripting → voicing → videoing → editing → reviewing → publishing → published（or on_hold）
+
+schedule:
+  draft_created_at: null
+  publish_target_date: null  # 公開予定日（JST）
+  publish_target_time: "21:00"
+
+duration:
+  target_minutes: null       # 8.0〜10.0 の範囲でテーマ別に設定
+  actual_minutes: null
+
+owners:
+  research: dinosaur-pm     # ネタ選定の責任
+  script: manami
+  video: nishi
+  voice: junki
+  edit: junki
+  thumbnail: hina
+  publish_meta: hina+dinosaur-pm
+  final_approval: naatan
+
+source_origin:
+  # ネタの一次情報元
+  primary_paper: null        # DOI または URL
+  reference_papers: []
+  museum_or_dataset: null
+
+stage_artifacts:
+  # 各 stage 完了時にここを埋める（パイプラインが自動更新）
+  research:
+    started_at: null
+    completed_at: null
+    output: 01_research/sources.md
+  script:
+    started_at: null
+    completed_at: null
+    output: 02_script/script.md
+  video:
+    started_at: null
+    completed_at: null
+    output: 03_video/scene_map.yml
+  voice:
+    started_at: null
+    completed_at: null
+    output: 04_voice/narration.wav
+  edit:
+    started_at: null
+    completed_at: null
+    output: 05_edit/final.mp4
+  publish:
+    started_at: null
+    completed_at: null
+    youtube_video_id: null
+    youtube_url: null
+
+quality_gates:
+  pm_script_review:
+    status: pending    # pending / passed / rejected
+    reviewed_at: null
+    reviewer: dinosaur-pm
+    notes: null
+  pm_final_review:
+    status: pending
+    reviewed_at: null
+    reviewer: dinosaur-pm
+    notes: null
+  naatan_approval:
+    status: pending
+    approved_at: null
+    notes: null
+
+cost_log:
+  # 1本ごとの個別承認（CLAUDE.md 支出ルール）
+  fish_audio: null
+  magnific: null
+  seedance: null
+  other: []
+  total_yen: null
+  naatan_pre_approved: false

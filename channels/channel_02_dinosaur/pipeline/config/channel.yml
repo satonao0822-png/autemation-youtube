@@ -1,0 +1,79 @@
+# channel.yml — 恐竜ch 全工程共通の不変ルール
+# 根拠: 00_concept.md / 02_content_strategy.md / ADR-006
+
+channel:
+  name: "古代生物のふしぎな世界"
+  slug: "channel_02_dinosaur"
+  handle: null  # 確定したら埋める（@dino_fushigi 等）
+  language: "ja-JP"
+  # 英語版展開は一旦保留（feedback_no_english_version 参照）
+  english_version: false
+
+tone:
+  # ADR-006 大人雑学への軌道修正
+  style: "大人雑学（学術寄りではない）"
+  scene_integration: "おやすみ前の大人雑学"
+  reference_channel: "バイエンス系"
+  forbidden_tone:
+    - "BBC Earth風の学術ナレーション"
+    - "子供向け迎合"
+    - "煽り・ホラー演出"
+
+writing_norms:
+  # ライティング規範6点（_request_to_manami_ep01 §4-A）
+  - 一次情報主義
+  - さらっと引用
+  - 問いかけ
+  - MECE
+  - 中学卒業レベル
+  - ユーモア
+
+ng_vocabulary:
+  # NG語彙（_competitor_analysis_nazology）
+  - 最強
+  - 衝撃
+  - ヤバい
+  - サイコパス
+  - 闇
+  - 禁断
+
+ng_direction:
+  - キャラ会話形式
+  - 派手SE
+  - 煽りBGM
+  - 断定（学術未確定事項を確定として語る）
+
+humor_density:
+  # feedback_humor_density: 10分尺で2-3回が上限
+  max_per_10min: 3
+  policy: "数で出すのではなく人格の底色（声演技・諦観）で出す"
+
+duration:
+  # 動画尺方針（2026-06-04 確定）
+  min_minutes: 8.0
+  max_minutes: 10.0
+  policy: "PMがテーマに応じて散らす。8分ぴったり固定はNG（YouTube複製判定回避）"
+
+structure_template:
+  # 7パート構成
+  - opening
+  - introduction
+  - body_1_basics
+  - body_2_latest_research
+  - body_3_interpretation
+  - closing
+  - cta
+
+review_gates:
+  - id: pm_script_review
+    owner: dinosaur-pm
+    triggers: ["after stage 02_script"]
+    checks: ["学術精度", "トーン逸脱（NG語彙混入）", "著作権"]
+  - id: pm_final_review
+    owner: dinosaur-pm
+    triggers: ["after stage 05_edit"]
+    checks: ["品質チェックリスト全項目"]
+  - id: naatan_approval
+    owner: naatan
+    triggers: ["before stage 06_publish"]
+    checks: ["公開可否最終判断"]

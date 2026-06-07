@@ -1,0 +1,56 @@
+# edit.yml — 編集ツール設定
+# 根拠: ADR-009 / 2026-06-07 なーたん決裁
+
+tool: remotion
+language: typescript
+runtime: nodejs
+
+reason:
+  # なぜ Remotion を選んだか
+  - "完全自動化との相性が最高（コードで動画を書く）"
+  - "テロップをコンポーネント化することでレイヤー分離が自然に成立（焼き込み禁止の恒久ルールと整合）"
+  - "BGM・SE・ナレーションのタイミング同期を React の宣言的記述で扱える"
+  - "出力は内部で ffmpeg を呼ぶため、ffmpeg 直接記述は最小限で済む"
+
+composition:
+  # Remotion の Composition 単位
+  fps: 30
+  width: 1920
+  height: 1080
+  format: mp4
+  codec: h264
+  audio_codec: aac
+
+layers:
+  # レイヤー分離（焼き込み禁止）— telop.yml > layering と整合
+  - id: background_video    # 03_video の素材
+  - id: narration           # 04_voice/narration.wav
+  - id: bgm                 # 05_bgm/main から選定
+  - id: se                  # 必要箇所のみ
+  - id: telop_main          # メインテロップ
+  - id: telop_supplementary # 学名・出典補足
+  - id: scene_transition    # トランジション
+
+loudness:
+  target_lufs: -16    # YouTube推奨
+  true_peak_max_db: -1.0
+
+output:
+  path_template: "episodes/{EP}/05_edit/final.mp4"
+  also_emit:
+    - "episodes/{EP}/05_edit/final.srt"       # メインテロップ別ファイル
+    - "episodes/{EP}/05_edit/project/"        # Remotion プロジェクト一式（再編集用）
+
+scripts:
+  # Remotion 開発時の慣例コマンド（実装時に詰める）
+  preview: "npx remotion preview"
+  render: "npx remotion render"
+
+skill_target:
+  # ADR-009 skill 化優先順位
+  name: junki-edit
+  priority: 4
+  prerequisites:
+    - "Node.js / npm セットアップ"
+    - "Remotion プロジェクト雛形（pipeline/stages/05_edit/）"
+    - "Composition テンプレ（タイトル・本編・クロージング）"

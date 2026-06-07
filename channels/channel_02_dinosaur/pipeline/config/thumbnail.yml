@@ -1,0 +1,45 @@
+# thumbnail.yml — サムネテンプレ
+# 根拠: feedback_thumbnail_design_principle / 02_content_strategy.md / _proposal_from_hina_thumbnail_*
+
+design_principle:
+  # feedback_thumbnail_design_principle: 純粋問いかけ型・答えを匂わせない
+  policy: "純粋問いかけ型／「これ」指示語×疑問詞"
+  forbidden_at_first_release:
+    - "対比型（A vs B）"
+    - "断定型（答えを示す）"
+    - "通説否定の煽り"
+  rationale: "なーたん基準。対比/断定はCTR取りに行きすぎ・答えが見えると視聴の必要性が下がる"
+
+series_templates:
+  # _proposal_from_hina_thumbnail_v3 §シリーズ二系列テンプレ
+  - id: "question_what_for"
+    name: "これって何のためにある？型"
+    example: "EP01 トリケラトプスのフリル"
+  - id: "not_what_we_thought"
+    name: "○○じゃなかったかもしれない話 型（タイトル用）"
+    example: "EP01「戦う盾じゃなかったかもしれない話」"
+
+palette:
+  # 落ち着いた色調（夜の青系・深い緑茶）
+  primary_tones:
+    - "夜の青系"
+    - "深い緑茶"
+  forbidden_tones:
+    - "原色・蛍光色"
+    - "毒々しい配色"
+
+sub_copy_pattern:
+  # 02_content_strategy.md
+  - "ふしぎ"
+  - "意外"
+
+implementation:
+  # サムネ案出しは hina、実装はなーたん本人
+  generated_by: hina
+  finalized_by: naatan
+  tool: "Figma / Canva（なーたん運用）"
+
+storage:
+  path: assets/thumbnails
+  format: ["png", "psd"]
+  naming: "EP{NN}_{slug}_v{N}.{ext}"
