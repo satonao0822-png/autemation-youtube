@@ -72,8 +72,39 @@ review_gates:
   - id: pm_final_review
     owner: dinosaur-pm
     triggers: ["after stage 05_edit"]
-    checks: ["品質チェックリスト全項目"]
+    checks: ["品質チェックリスト全項目", "重複コンテンツ判定リスク（material_reuse_policy.yml 準拠）"]
   - id: naatan_approval
     owner: naatan
     triggers: ["before stage 06_publish"]
     checks: ["公開可否最終判断"]
+
+ban_avoidance:
+  # 2026-06-08 ADR-011 で追加。最優先制約
+  policy: "YouTube チャンネル BAN リスク回避がすべての判断の上位"
+  rationale: "なーたん明示 2026-06-08「チャンネルBANが最も恐れること」"
+  ranked_risks:
+    - id: 1
+      name: 重複コンテンツ判定
+      severity: critical
+      mitigation: "material_reuse_policy.yml 準拠（連続NG + 4EP cooldown）"
+      related_config: pipeline/config/material_reuse_policy.yml
+    - id: 2
+      name: 著作権侵害
+      severity: critical
+      mitigation: "全素材ライセンス確認・assets/library/_metadata.md に記録 / CC-BY-NC / Editorial Use Only は採用しない"
+    - id: 3
+      name: 学術誤情報による報告・低評価
+      severity: high
+      mitigation: "PM レビュー + research-skill 一次ソース必須 + 推測は限定詞で表現"
+    - id: 4
+      name: AI開示違反
+      severity: high
+      mitigation: "publish.yml > disclosure 強制（概要欄+冒頭テロップ）"
+    - id: 5
+      name: 子供向け迎合語彙・煽り表現
+      severity: medium
+      mitigation: "channel.yml > ng_vocabulary / ng_direction で機械的チェック"
+  enforcement:
+    - "06_publish stage の upload_gate で全項目チェック"
+    - "PM が monthly に BAN リスク棚卸し"
+    - "新規 EP 立ち上げ時に必ずこのセクションを参照"

@@ -33,3 +33,18 @@ credentials.json
 *.log
 tmp/
 .cache/
+
+# material-ingest skill
+**/node_modules/
+**/dist/
+
+# Additional secrets
+**/credentials.json
+**/token.json
+
+# API keys in plain files（fishaudio API.rtf 等の機微情報を永久除外）
+fishaudio API.rtf
+**/fishaudio API.rtf
+*API*.rtf
+*api_key*
+*_apikey*

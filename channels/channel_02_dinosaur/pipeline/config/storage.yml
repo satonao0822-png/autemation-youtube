@@ -1,0 +1,178 @@
+# storage.yml — クラウド保管 + material-ingest 設定
+# 根拠: ADR-010
+
+cloud_storage:
+  provider: google_drive
+  reason: "なーたん既存課金プラン内・MCP連携可能・追加コストゼロ"
+  account: "nao.sato@or-design.co.jp"   # Drive オーナー（なーたん本人）
+  root_folder_name: "恐竜チャンネル"
+  root_folder_id: "1PRy9c_Qm5_f4Hc7k1eTushVWLk420De5"
+  root_folder_url: "https://drive.google.com/drive/folders/1PRy9c_Qm5_f4Hc7k1eTushVWLk420De5"
+  oauth_client_secret_env: GOOGLE_OAUTH_CLIENT_SECRET   # .env から読む（Phase 3 で設定）
+
+  # 2026-06-08 番号付きフラット構造に再編（なーたん要件: ファイル名のカシラ数字とフォルダ番号がリンク）
+  # 構造: 00系=特殊 / 10系=種別 / 20系=環境 / 30系=部位 / 40系=トランジション / 50系=フォールバック
+  subfolder_ids:
+    "00_inbox": "1ShhufXqVXGQdYQ8a_djXuzUm71bi8dFq"
+    "01_uncertain": "1MFds4UACRrZ9gl2-UgYr2fg4hkL1pxsL"
+
+    "10_sp_triceratops": "1_-cjuBLIvhquerNhYH5PuJBUJus76lKk"
+    "11_sp_tyrannosaurus": "1Fm18N1rnuaiJ_mJ_xR2dS8L_MhAsApyQ"
+    "12_sp_stegosaurus": "1Vv71ZMqqKhAGm-IDq0zQZ24jag_sE0wG"
+    "13_sp_velociraptor": "16c82E3p5QDfhtgke-Letci7uxh8srqVX"
+    "14_sp_pteranodon": "1rlMU7d5a6slYvjzkKsheGYZmqe3OfXfA"
+    "15_sp_multi": "1amJqigmvfYhPN_zu9ANbo0fHCF23iPS-"
+
+    "20_env_forest": "1xCbXUlxg68R4517fiE2LcgwPdwD3VvGM"
+    "21_env_plain": "1kB7wIGWf4NbcXWXr3xjhBXlBPK5F5nDD"
+    "22_env_coast": "1BwnAajSMdy6rrz5TZCABNSntNUyM377F"
+    "23_env_river": "1umfIZn_t0I4gdbNWSA_SCIPuFFrAb-Vj"
+    "24_env_volcano": "1YoLh_UzqeWjD9SyX0CxyYyl3lghQTmAc"
+    "25_env_desert": "1jp-D8eA9vDWbt64OZnzr-h2Fd87Y3EDo"
+    "26_env_mountain": "1OCOlzqpfsGxHCN6-KHr5jzZS0qU42f1Y"
+    "27_env_sky": "11zFH7PsmSgcFk9qyykAo7yDVfbpalXZy"
+    "28_env_underwater": "1PXNuuaueAZNTEommtxh5XPHQpNzY-FQu"
+    "29_env_abstract": "1EZQq3OKy86Nrnp7d9VsHR3X1RfT1ZdZ2"
+
+    "30_anatomy": "12fmYDJhyfLWz9X8rAzQNSBkdQINWlkMh"
+
+    "40_tr_fade": "1gJurzyvQlMUBvEI_NStl6ODQDVU7cQHf"
+    "41_tr_light_burst": "1RBAmW-Sp1iscUvrzHB4TpZJN0j7SY5oB"
+    "42_tr_particle": "1XVV9u269rqimJMxZ8ZifYp5DHDVTDGti"
+    "43_tr_zoom": "1e2yOniDWZKFaq7MDnX8N7j9had0QcxX0"
+    "44_tr_morph": "14FqEn895jFFXUcg534tltJsiKw3KByiA"
+
+    "50_fb_diagram": "1URIQ7-bV1ZXXIh5xmLEtxLaNQ3UVR5Gm"
+    "51_fb_reconstruction": "1XAEoeUW33Expagw2DLSWqUIRQNMbDzBc"
+    "52_fb_fossil": "1GzcT-B0j6X65xr5qtlaiOxUPFOJCMvu_"
+    "53_fb_phylogeny": "1SQ9SDGg33zwE3Du9muVIBULUO3uTDYmM"
+    "54_fb_map": "1DWYoW57C-NEIkAm479O5ElLlY-hjcUF6"
+
+  # ファイル名規約（なーたん要件・2026-06-08）
+  filename_convention:
+    new_assets: "{XX}_{behavior}_{shot}_{light}_M{NNN}.{ext}"
+    new_assets_example: "20_dawn_calm_M042.mp4 → 20_env_forest/ にドラッグ"
+    legacy_assets: "Pexels等の既存名はそのまま（リネーム不要）。先頭数字を見るのではなく内容で判別してドラッグ"
+
+  # 廃止された旧フォルダ（DEPRECATED・残置しているがいずれゴミ箱）
+  deprecated_subfolder_ids:
+    _inbox_old: "1j3tkxrmSxdGxFW09SV0CFpxr25q6uSRL"
+    _uncertain_old: "1Y6FqIX3pdvlD1PPmhxmyhYz69lo4TQ4R"
+    species_old: "1ohq43B38oTPQucImFSwNyaOqyO52IOQt"
+    environment_old: "1yhZOHoCavb4-Azhr9VD1JzIXaZONJxHm"
+    anatomy_old: "1Up5V3GtuMYDBuTxoSq_nqftrnkpImKAo"
+    transitions_old: "1UDpWqq5XhP6A2rK7FxI3aXCMDt1K--Bw"
+    fallback_illustration_old: "1n_kQ8neqZtugj1zq9m86fI3w8kDiuj7P"
+    # 旧構造の subfolder は全て空。なーたんが任意で Drive UI で削除
+
+  # Drive 内のフォルダ階層（ローカル 02_magnific/ と1対1対応）
+  # skill が自動でサブフォルダを作成して振り分ける
+  drive_subfolder_mapping:
+    inbox: "_inbox/"                          # なーたん がアップロード先（ここに動画を入れる）
+    uncertain: "_uncertain/"                  # confidence 低判定の退避先
+    species: "species/{species_name}/"
+    environment: "environment/{period}/"
+    anatomy: "anatomy/{part}/"
+    transitions: "transitions/"
+    fallback_illustration: "fallback_illustration/"
+
+  upload_path_for_naatan:
+    # なーたん が動画を入れる場所（ここ1つだけ覚えれば良い）
+    drive_subfolder: "_inbox/"
+    full_url: "https://drive.google.com/drive/folders/1PRy9c_Qm5_f4Hc7k1eTushVWLk420De5"
+    upload_method: drive_web_ui   # 2026-06-08 確定: なーたんは Drive Web UI 派
+    workflow:
+      - "1. Magnific でDL（ローカル ~/Downloads/ に落ちる）"
+      - "2. drive.google.com を開き、共有された _inbox/ フォルダへ移動"
+      - "3. ブラウザにmp4をD&Dでアップ"
+      - "4. ローカル ~/Downloads/ の mp4 を削除（容量解放・忘れずに）"
+    note: |
+      手数は3-4ステップ。デスクトップアプリ未使用のため、ローカル ~/Downloads/ に
+      一時的にmp4が残る → アップ後は速やかに削除推奨。
+      将来 Drive for desktop 導入すれば「Finder→Driveフォルダ」D&Dで2手数に短縮可能（任意）
+
+local_retention:
+  # 設計方針: なーたんの「ローカル圧迫させたくない」を最大化
+  # → 動画 mp4 はローカルに一度も載せない（Drive完結）
+  keep_locally:
+    - "_index.yml"               # メタ正本（軽量・必須）
+    - "_tag_dictionary.yml"      # 語彙統制
+    - "preview/*.jpg"            # 代表1枚（数十KB / 視覚確認用）
+    - "README.md"
+  never_locally:
+    - "*.mp4"                    # 動画本体はローカルに保存しない
+    - "*.mov"
+    - "*.mkv"
+  preview_size:
+    max_width: 640
+    quality: 85
+    format: jpg
+  # ローカル assets/library/02_magnific/inbox/ はフォールバック用途のみ
+  # （Drive アップが何らかの理由で使えない時の代替投入口）
+  local_inbox_fallback: assets/library/02_magnific/inbox/
+
+vision_classification:
+  enabled: true
+  provider: anthropic
+  model: claude-sonnet-4-6
+  fallback_model: claude-haiku-4-5-20251001   # コスト超過時の縮退
+  api_key_env: ANTHROPIC_API_KEY              # .env で設定（Phase 3）
+  prompt_path: pipeline/prompts/material_classification.md
+
+  screenshot:
+    duration_sec: 10        # 動画冒頭から10秒
+    frames_per_second: 1    # 1秒1枚 = 10枚
+    max_frames: 10
+
+  classification_axes:
+    # 必ず判定する5+1軸
+    - species              # [triceratops, tyrannosaurus, stegosaurus, ...] or []
+    - period               # triassic / jurassic / cretaceous_early / cretaceous_late / unknown
+    - behavior             # [walk, run, charge, eat, rest, courtship, fight, idle, landscape]
+    - shot                 # wide / medium / close / part_close
+    - environment          # [forest, plain, coast, volcano, river, ...]
+    - light                # dawn / day / dusk / night / storm / fog
+    - anatomical_ok        # true / false（false なら fallback_illustration へ）
+
+  confidence_threshold:
+    auto_classify: 0.7     # 0.7以上なら自動で species/ etc に振り分け
+    uncertain: 0.4         # 0.4-0.7 は _uncertain/ に preview 配置・要目視
+    reject: 0.4            # 0.4未満は _uncertain/ + 警告
+
+cost_management:
+  # ADR-010 §3
+  monthly_budget_yen: 1000
+  alert_threshold_yen: 800           # 80%でアラート
+  hard_stop_yen: 1000                # 100%で取り込み停止・なーたん再承認まで待機
+  cost_log_path: episodes/_logs/material_ingest_cost.yml
+  cost_per_request_estimate_yen:
+    sonnet_4_6: 8     # 1動画あたり目安
+    haiku_4_5: 0.8
+
+trigger:
+  # material-ingest skill の発火タイミング
+  default: manual                    # なーたんが「振り分けて」と言う
+  watch_source: drive_inbox          # Drive 上の _inbox/ サブフォルダを見る
+  alternatives:
+    - drive_inbox_polling            # Drive API で _inbox/ を定期ポーリング
+    - cron_hourly                    # 毎時実行
+    - local_fallback                 # ローカル inbox/ も併用
+  current: manual                    # Phase 3 開始時の暫定
+
+  skill_processing_flow:
+    # skill が起動した時の処理ステップ（Phase 3 実装時の参照）
+    - "Drive _inbox/ から未処理 mp4 をリスト"
+    - "1動画ずつ /tmp に一時DL"
+    - "ffmpeg で 10枚スクショ抽出（/tmp）"
+    - "Claude Vision Sonnet 4.6 で判定"
+    - "Drive 上で _inbox/ から species/{x}/ 等へ移動（Drive API files.update parents）"
+    - "preview をローカル preview/ に保存"
+    - "_index.yml / _metadata.md に追記"
+    - "/tmp 一時ファイル削除"
+    - "コストログに追記"
+
+metadata_sync:
+  # _metadata.md（人間向けライセンス台帳）と _index.yml（機械可読）両方に書く
+  human_readable_path: assets/library/_metadata.md
+  machine_readable_path: assets/library/02_magnific/_index.yml
+  sync_policy: "material-ingest skill が両方に同時追記する。手動で片方だけ更新しないこと"

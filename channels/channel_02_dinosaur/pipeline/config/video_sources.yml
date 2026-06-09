@@ -1,11 +1,26 @@
 # video_sources.yml — 映像3ソース戦略
-# 根拠: ADR-007 / _pm_status_overview §1-15, §1-17 / _pm_memo_seedance_pause_2026-06-04
+# 根拠: ADR-007（戦略本体）/ ADR-011（配分見直し・運用方針）
+# 2026-06-08 ADR-011: Magnific 抑制 + フリー素材主軸 + Seedance 種別主役 への運用解釈変更
 
-# 配分目安（本数 ≒ 尺ベース）
+# 配分目安（本数 ≒ 尺ベース）— 2026-06-08 ADR-011 で更新
 allocation:
-  freestock_pct: 25   # 無料ストック
-  magnific_pct: 35    # Magnific
-  seedance_pct: 40    # Seedance（API課金）
+  freestock_pct: 50   # 無料ストック（汎用素材主軸に格上げ）
+  magnific_pct: 15    # Magnific（種別の補助カットに抑制）
+  seedance_pct: 35    # Seedance（種別主役・API再開後）
+  # 旧（ADR-007）: freestock 25 / magnific 35 / seedance 40
+
+usage_policy:
+  # ADR-011 で確定した運用方針
+  freestock:
+    role: "汎用素材の主軸（環境・トランジション・抽象・Bロール）"
+    why: "ライセンス費ゼロ・量が多い・恐竜chの汎用領域はフリーで完結"
+  magnific:
+    role: "種別の補助カット（種別不問の脇役・抽象的恐竜カット）"
+    why: "種別優先方針（ADR-011）。汎用生成は抑制"
+    generation_restraint: true
+  seedance:
+    role: "種別の主役カット（特定種のダイナミックな動き）"
+    why: "API課金のリソースは主役カットに集中"
 
 sources:
   freestock:

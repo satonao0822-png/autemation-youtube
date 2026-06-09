@@ -1,0 +1,142 @@
+# _tag_dictionary.yml — タグ語彙の統制（揺れ防止）
+# material-ingest skill / Claude / なーたん は必ずこの語彙を使う
+# 新しい語彙を追加したい時は本ファイルに追記してから使う
+
+species:
+  # 主要種（フォルダにも対応）
+  - triceratops
+  - tyrannosaurus
+  - stegosaurus
+  - velociraptor
+  - pteranodon
+  # 追加候補（順次フォルダ作成）
+  - brachiosaurus
+  - allosaurus
+  - spinosaurus
+  - ankylosaurus
+  - parasaurolophus
+  - apatosaurus
+  - diplodocus
+  - iguanodon
+  - oviraptor
+  - therizinosaurus
+  - quetzalcoatlus     # 翼竜
+  - plesiosaurus       # 海竜
+  - mosasaurus
+  # 特殊
+  - _multi             # 複数種同居
+  - _unknown           # 種判定不能
+
+period:
+  # 地質年代
+  - triassic           # 三畳紀 (252-201 Ma)
+  - jurassic           # ジュラ紀 (201-145 Ma)
+  - cretaceous_early   # 白亜紀前期 (145-100 Ma)
+  - cretaceous_late    # 白亜紀後期 (100-66 Ma)
+  - unknown            # 判定不能・時代問わず
+
+behavior:
+  - walk               # 歩行
+  - run                # 走行
+  - charge             # 突進
+  - eat                # 食事
+  - rest               # 休息
+  - courtship          # 求愛・ディスプレイ
+  - fight              # 戦闘・闘争
+  - idle               # たたずむ・静止
+  - landscape          # 風景・動物なし
+  - swim               # 遊泳
+  - fly                # 飛行
+  - hunt               # 捕食
+  - herd               # 群れで移動
+  - vocalize           # 鳴き声・咆哮
+
+shot:
+  - wide               # 全景
+  - medium             # 中距離
+  - close              # クローズアップ（全身）
+  - part_close         # 部位クローズアップ（頭・歯・フリル等）
+  - overhead           # 俯瞰
+  - low_angle          # 仰角
+
+environment:
+  # environment/ 配下のフォルダ名と1対1対応（場所別フォルダ）
+  - forest             # 森林
+  - plain              # 平原・草原
+  - coast              # 海岸・海
+  - river              # 河川・湖
+  - volcano            # 火山・溶岩
+  - desert             # 砂漠・荒地
+  - mountain           # 山岳・崖
+  - sky                # 空・雲（地表なし）
+  - underwater         # 水中
+  - abstract           # 宇宙・粒子・テクスチャ（場所概念なし）
+  # 追加サブカテゴリ（フォルダ化しないが _index.yml で使う）
+  - cave               # 洞窟
+  - swamp              # 湿地
+  - museum             # 博物館・展示
+
+mood:
+  # 環境素材のムード（ナレーショントーンとの整合用）
+  - calm               # 穏やか
+  - dreamy             # 幻想的
+  - dramatic           # ドラマチック
+  - dark               # 暗い・不穏
+  - cinematic          # 映画的・荘厳
+  - serene             # 静謐
+  - mysterious         # 神秘的
+
+transition_type:
+  # transitions/ 配下のフォルダ名と1対1対応
+  - fade               # フェード（黒/白/カラー）
+  - light_burst        # 光・閃光
+  - particle           # 粒子・砂塵
+  - zoom               # ズーム・パン
+  - morph              # モーフ・歪み
+
+illustration_type:
+  # fallback_illustration/ 配下のフォルダ名と1対1対応
+  - diagram            # 解剖図・骨格図
+  - reconstruction     # 復元画
+  - fossil             # 化石写真
+  - phylogeny          # 系統樹
+  - map                # 地質図・分布図
+
+light:
+  - dawn               # 夜明け
+  - day                # 日中
+  - dusk               # 夕暮れ
+  - night              # 夜
+  - storm              # 嵐
+  - fog                # 霧
+  - moonlit            # 月明かり
+
+anatomical_ok:
+  # 学術整合性。false なら本編使用NG・fallback_illustration からの代替を検討
+  - true
+  - false
+
+anatomy_part:
+  # anatomy/ 配下で使う部位タグ
+  - frill              # フリル（角竜類）
+  - jaw                # 顎
+  - tooth              # 歯
+  - claw               # 爪
+  - plate              # 板（剣竜類）
+  - spike              # スパイク
+  - crest              # 頭頂部の冠
+  - wing               # 翼（翼竜）
+  - tail               # 尾
+  - eye                # 眼
+  - foot               # 足
+  - feather            # 羽毛
+
+# 検索時のエイリアス（揺れを吸収）
+aliases:
+  trike: triceratops
+  t-rex: tyrannosaurus
+  trex: tyrannosaurus
+  rex: tyrannosaurus
+  steg: stegosaurus
+  raptor: velociraptor
+  ptero: pteranodon

@@ -47,17 +47,18 @@ ADR-008（Phase 0）でパイプラインの骨格は確定した。Phase 1 と�
 - API は YouTube Data API v3
 - 完全無人 public 化は当面しない（Phase 5 で評価）
 
-## skill化の優先順位（ADR-008 を上書き）
+## skill化の優先順位（ADR-008 を上書き / 2026-06-08 ADR-010 で更新）
 
 | 順位 | skill 名 | 内容 | 備考 |
 | --- | --- | --- | --- |
 | 1 | `research-skill` | リサーチ・一次ソース収集 | **最優先**（なーたん明示・再現性目的） |
-| 2 | `junki-voice` | fish audio API呼び出し | 機械的・自動化容易 |
-| 3 | `manami-script` | 台本生成 | リサーチ skill の出力を消費 |
-| 4 | `junki-edit` | Remotion で編集合成 | Remotion 採用が前提 |
-| 5 | `nishi-video` | Seedance + フリー素材取得・図解差し替え | Seedance再開・素材サイト選定が先 |
-| 6 | `publish-youtube` | YouTube Data API（unlisted 上げまで） | public 切替は手動継続 |
-| 7 | `hina-thumbnail` | サムネ案出し | 実装はなーたん手動継続 |
+| **2** | **`material-ingest`** | **Magnific素材の自動振り分け（Vision + Drive）** | **2026-06-08 ADR-010 で追加** |
+| 3 | `junki-voice` | fish audio API呼び出し | 機械的・自動化容易 |
+| 4 | `manami-script` | 台本生成 | リサーチ skill の出力を消費 |
+| 5 | `junki-edit` | Remotion で編集合成 | Remotion 採用が前提 |
+| 6 | `nishi-video` | Seedance + フリー素材取得・図解差し替え | material-ingest と連携 |
+| 7 | `publish-youtube` | YouTube Data API（unlisted 上げまで） | public 切替は手動継続 |
+| 8 | `hina-thumbnail` | サムネ案出し | 実装はなーたん手動継続 |
 
 注: `research-skill` を `manami-research` でなく独立命名にしているのは、PM レビューも含めた一連の流れ全体を skill 化する意図（人格に閉じない）。
 

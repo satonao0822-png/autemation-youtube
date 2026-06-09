@@ -1,0 +1,32 @@
+# _index.yml — Magnific素材インデックス（機械可読・正本）
+#
+# 役割: Claude / material-ingest skill / nishi-video skill が grep する正本
+# 同期: material-ingest skill が _metadata.md（人間向け）と本ファイル両方に書く
+# 編集: 手動編集は最終手段。基本は skill 経由
+#
+# レコード形式 例:
+# materials:
+#   - id: M001
+#     file_local_preview: preview/walk_wide_forest_dawn_M001.jpg
+#     file_cloud_path: "species/triceratops/walk_wide_forest_dawn_M001.mp4"
+#     file_cloud_url: "https://drive.google.com/file/d/{id}/view"
+#     species: [triceratops]
+#     period: cretaceous_late
+#     behavior: [walk, solo]
+#     shot: wide
+#     environment: [forest]
+#     light: dawn
+#     anatomical_ok: true
+#     duration_sec: 8
+#     ingested_at: "2026-06-15"
+#     vision_confidence:
+#       species: 0.95
+#       behavior: 0.88
+#       overall: 0.91
+#     vision_model: claude-sonnet-4-6
+#     used_in: []           # ["EP02_scene_005"] と使用ごとに追記
+#     notes: ""
+
+materials: []
+
+# 統計・運用ログは別ファイル（episodes/_logs/material_ingest_cost.yml 等）に分離

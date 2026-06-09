@@ -1,0 +1,113 @@
+# material_reuse_policy.yml — 素材再利用ポリシー（重複コンテンツ判定回避）
+# 根拠: ADR-011 / なーたん明示 2026-06-08「チャンネルBANが最も恐れること」
+
+policy_priority: "最優先制約（channel.yml > ban_avoidance と整合）"
+
+global_default:
+  # 全カテゴリのデフォルト（個別設定がなければこれが適用）
+  max_consecutive_use: 1        # 連続EPで同一クリップを使わない（隣接EPで0回 = 1EP空ける）
+  cooldown_ep_count: 4          # 直近4EP以内に使っていたら候補から除外
+  enforcement: candidate_skip   # 違反候補はスキップして次の候補へ
+
+per_category:
+  # カテゴリ別の上書き
+  species:
+    max_consecutive_use: 1
+    cooldown_ep_count: 4
+    note: "種別の主役カットは特に注意。同じ素材で複数EP連続作ると重複判定リスク大"
+
+  environment:
+    max_consecutive_use: 1
+    cooldown_ep_count: 4
+    note: "場所別の汎用素材も同様"
+
+  transitions:
+    max_consecutive_use: 1
+    cooldown_ep_count: 5
+    note: "トランジションは目立つので長め cooldown"
+
+  anatomy:
+    max_consecutive_use: 0       # 0 = 同じ EP内でも1回まで、別 EP では cooldown
+    cooldown_ep_count: 6
+    note: "学名テロップとセットなので、再利用すると同じ説明感が出る"
+
+  fallback_illustration:
+    max_consecutive_use: 0
+    cooldown_ep_count: 6
+    note: "図解は性質上、繰り返しNG（同じ図が出ると視聴者が気づく）"
+
+exceptions:
+  # 例外的に重複OKの素材
+  - id: bgm_main
+    rule: "チャンネル統一OK（毎EP同じ）"
+    item: "DOVA the water temple"
+    reason: "メインBGMはチャンネルアイデンティティ。重複判定対象外"
+    scope: "_metadata.md の main カテゴリのみ"
+
+duplicate_detection:
+  # 2026-06-08 なーたん追加: _inbox/ 投入時点で既存素材との重複を検出 → ゴミ箱送り
+  # 理由: なーたんが見境なくDLしていくと過去のDL履歴が分からなくなるため
+  trigger: "新規 mp4 が _inbox/ に投入された時点"
+  enforcement_point: "material-ingest skill の Vision 判定の前"
+  detection_methods:
+    - method: file_hash
+      algorithm: md5
+      target: "完全に同一バイトのファイル（Magnificから同じ動画を2回DLした場合）"
+      action: "即ゴミ箱"
+    - method: file_size_match
+      target: "サイズが完全一致 + ファイル名類似度高い → 高確度疑い"
+      action: "サムネ視覚比較に進む"
+    - method: visual_similarity
+      tool: claude_vision_sonnet_4_6
+      target: "Magnific 生成の微妙な差分も視覚的に同等とみなせるもの"
+      threshold: 0.92  # コサイン類似度等
+      action: "≥0.92 はゴミ箱 / 0.80-0.92 は _uncertain/ で要目視"
+  on_duplicate:
+    - "Drive 上で動画を ゴミ箱（trashed=true）へ移動"
+    - "重複ログ: assets/library/02_magnific/_duplicate_log.yml に記録"
+    - "_index.yml には追記しない（既存レコードを正本扱い）"
+  duplicate_log_format: |
+    duplicates:
+      - new_file: M053_xxx.mp4
+        existing_id: M021
+        existing_path: species/triceratops/...
+        match_method: visual_similarity
+        match_score: 0.95
+        trashed_at: 2026-06-XX
+        action: trashed
+
+enforcement:
+  check_field: "used_in"        # _index.yml の used_in 配列を参照
+  enforcement_point: "03_video stage の素材選定時"
+  on_violation:
+    - "候補を skip"
+    - "代替候補を _index.yml から再検索"
+    - "全候補が cooldown 中なら shortage_alert 発火"
+
+shortage_alert:
+  # 在庫不足検知 → なーたん依頼フロー
+  trigger: "全候補が cooldown 中で本編使用不可"
+  actions:
+    - "episodes/{EP}/99_logs/shortage_alert.yml に記録"
+    - "PM へ通知"
+    - "PM がなーたんに依頼（窓口Claude経由）"
+  request_template: |
+    [素材不足 依頼] EP{NN} {category}/{species_or_place}
+
+    既存 {N} 本は全て直近 {cooldown_ep_count} EP 以内に使用済みで、cooldown 中。
+
+    Magnific or フリー素材サイトで以下の素材を {本数} 本追加お願いします:
+    - 期待する内容: {description}
+    - 推奨ソース: {recommended_source}  # freestock / magnific（種別なら）
+    - 用途: {scene_intent}
+    - 緊急度: {urgency}
+
+review_cycle:
+  # 月次で重複状況を棚卸し
+  frequency: monthly
+  reviewer: dinosaur-pm
+  checks:
+    - "全クリップの used_in 配列を確認"
+    - "cooldown 違反が起きていないか"
+    - "高頻度使用クリップを特定（複数EPで使われがちな素材）"
+    - "在庫不足アラートの再発頻度を集計"
