@@ -1,10 +1,29 @@
 # ADR-010: 恐竜ch 素材取り込み自動化（material-ingest skill）と クラウド保管
 
-- **Status**: Accepted
-- **Date**: 2026-06-08
+- **Status**: Accepted（2026-06-10 v2 改訂・実装フェーズ前倒し）
+- **Date**: 2026-06-08 起票 / 2026-06-10 前倒し決裁
 - **Deciders**: なーたん（決裁）／ 窓口Claude（起案）
 - **Supersedes**: [ADR-009](ADR-009_dinosaur_pipeline_phase1_tech_stack.md) §skill化の優先順位（`material-ingest` を割り込ませる）
 - **Channel scope**: `channel_02_dinosaur` のみ
+
+## 2026-06-10 前倒し決裁（v2）
+
+**決裁内容**: skill 実装フェーズを **Phase 3 → 即時着手** に前倒し。
+
+**判断根拠**:
+1. Drive `_inbox/` に Pexels 初期 50 本（約 1.78GB）が振り分け待ちで滞留中（2026-06-07 投入・2026-06-10 監査済）
+2. Shorts主軸戦略（ADR-012）下では Pexels 一括投入の頻度・量が増える（200本目標）。手動振り分けは持続不可
+3. Vision API 月予算 ¥1,000 は pre_approved 枠内（5,000円承認ルール下限内）・追加承認不要
+4. 実装中も Shorts 第1本（EP01）作業は並行進行可能（Drive _inbox の `4584661_Rock_Grass` 等は手動取り出しで対応）
+
+**実装着手指示先**: 恐竜チャンネルPM（直接発令）
+
+**並行動作**: manami 台本 v3.3 起案・nishi/junki/hina Shorts発注フェーズと並走
+
+**ADR-010 v2 で変わるもの**:
+- 実装スコープのチェックリスト OAuth/skill実装/EP02運用開始 をPhase 3 → 即時に変更
+- Drive `_inbox/` 50 件の手動振り分けは **やめて skill 完成後に skill 経由で一括処理**（Q1=PM実行・Q2=バオバブ削除+3件_uncertain・Q3=skill前倒しの判断と整合）
+
 
 ## コンテキスト
 
@@ -74,9 +93,9 @@
 | 7 | `publish-youtube` | |
 | 8 | `hina-thumbnail` | |
 
-## 実装スコープ（Phase 1.5）
+## 実装スコープ（Phase 1.5 → v2 即時実装に前倒し）
 
-本ADRでは **設計と雛形まで** を進める。実コードは Phase 3（最初のskill実装フェーズ）で着手：
+本ADRでは当初 **設計と雛形まで** を進めて実コードは Phase 3 で着手予定だったが、2026-06-10 なーたん決裁により **即時実装** に変更：
 
 - [x] 新フォルダ構造の物理作成
 - [x] ADR-010 起票
@@ -85,8 +104,9 @@
 - [x] `pipeline/prompts/material_classification.md` 作成（Vision判定プロンプト雛形）
 - [x] `assets/library/02_magnific/README.md` / `_tag_dictionary.yml` / `_index.yml` 作成
 - [x] `.claude/skills/material-ingest/README.md` 予約
-- [ ] OAuth 設定（Google Cloud Console）— Phase 3 で実施
-- [ ] skill 実装（ffmpeg + Claude Vision SDK + Drive API）— Phase 3
+- [ ] **OAuth 設定（Google Cloud Console）— 2026-06-10 着手**
+- [ ] **skill 実装（ffmpeg + Claude Vision SDK + Drive API）— 2026-06-10 着手**
+- [ ] **Drive `_inbox/` 50件の初回ingest実行**（バオバブ削除+T-Rex/Dinosaur/Skull 3件は`_uncertain/` 行き）
 - [ ] EP02 以降での運用開始
 
 ## トレードオフ

@@ -149,6 +149,54 @@ cost_management:
     sonnet_4_6: 8     # 1動画あたり目安
     haiku_4_5: 0.8
 
+# ===========================================
+# チャンネル全体の予算ガード（2026-06-09 なーたん承認）
+# 正式な定義は ADR-013（Shorts動画運用版）で行う。本セクションは暫定記録
+# ===========================================
+channel_budget_guardrails:
+  # 全API課金・サブスク・外注の承認閾値（feedback_payment_approval_rule.md 2026-06-09更新）
+  approval_threshold_yen: 5000       # 1回 / 月次見込み / サブスク月額のいずれかが5,000円超で承認必須
+  approval_threshold_changed_from_yen: 10000  # 旧閾値（1万円）から厳格化
+  approval_threshold_changed_at: "2026-06-09"
+  approval_threshold_reason: "なーたん明示『とにかく5000円以上の決済はちゃんと俺に通すようにしてね。べらぼうに高くなるとしんどいから』"
+
+  # 既承認の予算枠（上限内であれば追加承認不要、超過時は再承認）
+  pre_approved_budgets:
+    seedance_trial:
+      monthly_limit_yen: 3000        # 試験枠（2026-06-09 なーたん承認）
+      purpose: "Shorts動画運用80%以上の検証。EP01から本格運用前のパイロット"
+      hard_stop: true                # 上限到達で自動停止
+      review_after_month_count: 1    # 1ヶ月実績見て本格運用可否を再判断
+      reference_adr: "ADR-013（起案中）"
+
+    magnific_subscription:
+      monthly_limit_yen: 1000        # 既契約・月額固定
+      purpose: "静止画AI素材（補助用途）"
+      pre_approved_at: "2026-06-02"
+
+    fish_audio_subscription:
+      monthly_limit_yen: 100         # 既契約・月額固定
+      purpose: "ナレーション音声合成"
+      pre_approved_at: "2026-06-02"
+
+    gpt_image_2:
+      monthly_limit_yen: 2000        # 静止画補助（マスター設定画・断面図等）の上振れ上限
+      purpose: "Seedance I2V用マスター画像・Magnific在庫不足の補完"
+      hard_stop: false               # 必要時は事前共有で運用
+      pre_approved_at: "2026-06-09"
+
+    material_ingest:
+      monthly_limit_yen: 1000        # storage.yml §cost_management と同じ・素材投入量依存
+      purpose: "Drive _inbox/ 動画の自動分類（Sonnet 4.6/Haiku 4.5）"
+      pre_approved_at: "2026-06-08"
+
+  # 想定月額合計（Shortsのみ運用・初月・標準シナリオ）
+  estimated_monthly_total_yen:
+    minimum: 1100                    # 固定費のみ（変動費ゼロ）
+    standard: 6000                   # 標準想定
+    maximum: 7100                    # 全変動費上限張り付き
+    reference: "Phase 1 Shorts 16本/月・長尺なし"
+
 trigger:
   # material-ingest skill の発火タイミング
   default: manual                    # なーたんが「振り分けて」と言う
